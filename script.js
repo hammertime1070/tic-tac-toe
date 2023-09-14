@@ -36,32 +36,33 @@ const square = () => {
 
 const displayController = (function(){
     // private variables and functions
-    const board = gameBoard();
-    const display = displayController();
-    const playerOne = player();
-    const playerTwo = player();
-    let activePlayer = playerOne
+
     // public variables and functions
-    const getActivePlayer = () => activePlayer;
-    const playMove = (position) => {
-        console.log(`Active Player ${getActivePlayer.name}`)
-    }
-
-
+ 
     return {
         // declare public variables and functions
-        getActivePlayer
+        
     }
 })();
 
 
 const gameController = (function(){
     // private variables and functions
+    const board = gameBoard();
+    const display = displayController();
+    const playerOne = player();
+    const playerTwo = player();
+    let activePlayer = playerOne
 
     // public variables and functions
-
+    const getActivePlayer = () => activePlayer;
+    const playMove = (position) => {
+        console.log(`Active Player ${getActivePlayer.name}`)
+    }
     return {
         //declare public variables and functions
+        getActivePlayer,
+        playMove
     }
 })();
 
