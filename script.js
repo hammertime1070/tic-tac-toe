@@ -39,14 +39,18 @@ const square = () => {
 }
 
 
-const displayController = (function(){
+const displayController = (function(board){
     // private variables and functions
-
+    const board = board;
     // public variables and functions
- 
+    printBoard = (board) => {
+        for (i in board) {
+            console.log(i)
+        }
+    }
     return {
         // declare public variables and functions
-        
+        printBoard
     }
 })();
 
@@ -54,7 +58,7 @@ const displayController = (function(){
 const gameController = (function(){
     // private variables and functions
     const board = gameBoard();
-    const display = displayController();
+    const display = displayController(board);
     const playerOne = player();
     const playerTwo = player();
     const switchTurn = () => {
@@ -69,6 +73,8 @@ const gameController = (function(){
     const playMove = (position) => {
         console.log(`Active Player ${getActivePlayer.name}`)
         board.makeMove(x, y, getActivePlayer().mark)
+        switchTurn()
+        display.printBoard(board)
     }
     return {
         //declare public variables and functions
