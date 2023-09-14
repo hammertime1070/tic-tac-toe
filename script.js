@@ -6,7 +6,7 @@ const gameBoard = (function(){
     for (let i = 0; i < rows; i++) {
         board[i] = []
         for (let j = 0; j < columns; j++) {
-            board[i].push(square)
+            board[i].push(square())
         }
     }
     // public variables and functions
@@ -23,7 +23,7 @@ const gameBoard = (function(){
 })();
 
 
-const square = () => {
+function square() {
     // class variables and functions
     let value = ""
     const markSquare = (player) => {
@@ -39,9 +39,8 @@ const square = () => {
 }
 
 
-const displayController = (function(board){
+const displayController = (function(){
     // private variables and functions
-    const board = board;
     // public variables and functions
     printBoard = (board) => {
         for (i in board) {
@@ -57,10 +56,10 @@ const displayController = (function(board){
 
 const gameController = (function(){
     // private variables and functions
-    const board = gameBoard();
-    const display = displayController(board);
-    const playerOne = player();
-    const playerTwo = player();
+    const board = gameBoard;
+    const display = displayController;
+    const playerOne = player('Player One', 'X');
+    const playerTwo = player('Player Two', 'O');
     const switchTurn = () => {
         if (activePlayer === playerOne) {
             activePlayer = playerTwo
@@ -83,10 +82,9 @@ const gameController = (function(){
     }
 })();
 
-const player = (name, mark) => {
+function player(name, mark) {
     // class variables and functions
-    const name = name
-    const mark = mark
     return{name, mark} // return all class variables and functions
 }
 
+const game = gameController;
