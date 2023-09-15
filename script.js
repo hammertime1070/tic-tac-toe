@@ -25,7 +25,7 @@ const gameBoard = (function(){
 
 function square() {
     // class variables and functions
-    let value = ""
+    let value = "E"
     const markSquare = (player) => {
         value = player.mark
     };
@@ -43,9 +43,8 @@ const displayController = (function(){
     // private variables and functions
     // public variables and functions
     printBoard = (board) => {
-        for (i in board) {
-            console.log(i)
-        }
+        const mappedBoard = board.map((row) => row.map((square) => square.getMark()))
+        console.log(mappedBoard)
     }
     return {
         // declare public variables and functions
@@ -54,26 +53,49 @@ const displayController = (function(){
 })();
 
 
+const inputController = (function(){
+    // private variables and functions
+    // public variables and functions
+    const getXMove = () => {
+        const squareXPosition = prompt("X?")
+        return squareXPosition
+    }
+    const getYMove = () => {
+        const squareYPosition = prompt("Y?")
+        return squareYPosition
+    }
+    return {
+        // declare public variables and functions
+        getXMove,
+        getYMove
+    }
+})();
+
+
 const gameController = (function(){
     // private variables and functions
     const board = gameBoard;
     const display = displayController;
+    const input = inputController;
     const playerOne = player('Player One', 'X');
     const playerTwo = player('Player Two', 'O');
+    let activePlayer = playerOne;
     const switchTurn = () => {
         if (activePlayer === playerOne) {
             activePlayer = playerTwo
         }
         else {activePlayer = playerOne}
     }
-    let activePlayer = playerOne
     // public variables and functions
     const getActivePlayer = () => activePlayer;
-    const playMove = (position) => {
-        console.log(`Active Player ${getActivePlayer.name}`)
-        board.makeMove(x, y, getActivePlayer().mark)
+    // get user input
+    const playMove = () => {
+        console.log(`Active Player ${getActivePlayer().name}`)
+        x = input.getXMove()
+        y = input.getYMove()
+        board.makeMove(x, y, getActivePlayer())
         switchTurn()
-        display.printBoard(board)
+        display.printBoard(board.getBoard())
     }
     return {
         //declare public variables and functions
@@ -87,4 +109,16 @@ function player(name, mark) {
     return{name, mark} // return all class variables and functions
 }
 
-const game = gameController;
+
+const screenController = (function(){
+    // private variables and functions
+    const game = gameController
+    const boardDiv = document.querySelector('.board')
+    // public variables and functions
+    return {
+        // declare public variables and functions
+    }
+})();
+
+
+gameController.playMove()
