@@ -100,7 +100,8 @@ const gameController = (function(){
     return {
         //declare public variables and functions
         getActivePlayer,
-        playMove
+        playMove,
+        getBoard: board.getBoard
     }
 })();
 
@@ -113,12 +114,41 @@ function player(name, mark) {
 const screenController = (function(){
     // private variables and functions
     const game = gameController
+    const board = game.getBoard()
     const boardDiv = document.querySelector('.board')
+    const updateScreen = () => {
+        let i = 0;
+        let j = 0;
+        boardDiv.textContent = ""
+        for (const row of board) {
+            console.log(board)
+            const rowDiv = document.createElement("div")
+            for (const square of row) {
+                const squareButton = document.createElement("button")
+                squareButton.classList.add("square")
+                squareButton.id = `${i}${j}`
+                squareButton.textContent = square.getMark()
+                rowDiv.appendChild(squareButton)
+                j++
+            }
+            boardDiv.appendChild(rowDiv)
+            i++
+        }
+
+    }
+
+    const clickHandler = (e) => {
+        const selectedSquare = e.target.id
+        game.playMove(selectedSquare)
+        updateScreen()
+    }
+
+    boardDiv.addEventListener("click", clickHandler)
+    updateScreen()
+
     // public variables and functions
     return {
         // declare public variables and functions
+        updateScreen
     }
 })();
-
-
-gameController.playMove()
